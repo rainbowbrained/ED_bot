@@ -33,7 +33,6 @@
       <!-- Menu link fragment #id should match a div id. Example: <a href="#home"> links to <div id="home"></div>  -->
       <ul class="main-menu">
         <li><a href="#food">Еда</a></li>
-        <li><a href="#conditions">Обстоятельства</a></li>
         <li><a href="#emotions">Эмоции</a></li>
         <li><a href="#comment">Комментарии</a></li>
       </ul>                 
@@ -44,16 +43,34 @@
         <div id="content"> 
           
           <div id="food" class="content-region hide">
-            <h2>Home</h2>
-            <p>
-              This is a simple website template published with Github Pages. <a href="https://github.com/cpl-makerlab/simple-website-template">Fork this repository</a> to create your own site!
-            </p>
-
-            <label for="appt">Choose a time for your meeting:</label>
-
+            
+            <label for="appt">Выбери время приёма пищи: </label>
               <input type="time" id="appt" name="appt"
                     min="00:00" max="23:59" required>
-              <small>Office hours are 9am to 6pm</small>
+              <p> Напиши место приёма пищи: 
+                <input placeholder="Кухня" type="text" id="name" name="name" size="20">
+              </p>
+              <p>
+              Запиши название съеденных продукта(ов), содержащие компоненты:
+            </p>
+            <p> Белок: 
+              <input placeholder="Курица" type="text" id="name" name="name" size="20">
+            </p>
+            <p> Жиры: 
+              <input placeholder="Масло" type="text" id="name" name="name" size="20">
+            </p>
+            <p> Углеводы: 
+              <input placeholder="Гречка" type="text" id="name" name="name" size="20">
+            </p>
+            <p> Клетчатка: 
+              <input placeholder="Помидор" type="text" id="name" name="name" size="20">
+            </p>
+            <p> Кальций: 
+              <input placeholder="Сметана" type="text" id="name" name="name" size="20">
+            </p>
+            <p> Еда для радости: 
+                <input placeholder="Шоколадная конфета" type="text" id="name" name="name" size="20">
+            </p>
 
             <fieldset> <legend>Шкала голода</legend>
               <p><input type="range" min="0" max="10" onchange="document.getElementById('rangeValue').innerHTML = this.value;" list="rangeList"> <span id="rangeValue">5</span></p>
@@ -106,7 +123,7 @@
     </div>
 
     <footer>  
-      Footer region
+      ...
     </footer>
     
     <!-- Load additional JS scripts here -->
