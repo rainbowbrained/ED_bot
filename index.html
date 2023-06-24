@@ -28,14 +28,14 @@
   <body>
 
     <header id="header">
-      <img src="logo.jpg">
-      <h1>Simple Website</h1>
+      <h1>Приём пищи</h1>
       
       <!-- Menu link fragment #id should match a div id. Example: <a href="#home"> links to <div id="home"></div>  -->
       <ul class="main-menu">
-        <li><a href="#home">home</a></li>
-        <li><a href="#about">about</a></li>
-        <li><a href="#contact">contact</a></li>
+        <li><a href="#food">Еда</a></li>
+        <li><a href="#conditions">Обстоятельства</a></li>
+        <li><a href="#emotions">Эмоции</a></li>
+        <li><a href="#comment">Комментарии</a></li>
       </ul>                 
     </header>
    
@@ -43,27 +43,64 @@
       <div class="inner">
         <div id="content"> 
           
-          <div id="home" class="content-region hide">
+          <div id="food" class="content-region hide">
             <h2>Home</h2>
             <p>
               This is a simple website template published with Github Pages. <a href="https://github.com/cpl-makerlab/simple-website-template">Fork this repository</a> to create your own site!
             </p>
+
+            <label for="appt">Choose a time for your meeting:</label>
+
+              <input type="time" id="appt" name="appt"
+                    min="00:00" max="23:59" required>
+              <small>Office hours are 9am to 6pm</small>
+
+            <fieldset> <legend>Шкала голода</legend>
+              <p><input type="range" min="0" max="10" onchange="document.getElementById('rangeValue').innerHTML = this.value;" list="rangeList"> <span id="rangeValue">5</span></p>
+              <datalist id="rangeList">
+              <option value="0" label="0">
+              <option value="2" label="2">
+              <option value="4" label="4">
+              <option value="6" label="6">
+              <option value="8" label="8">
+              <option value="10" label="10">
+              </datalist>
+            </fieldset>
+
+
+            <fieldset> <legend>Шкала насыщения</legend>
+              <p><input type="range" min="0" max="10" onchange="document.getElementById('rangeValue').innerHTML = this.value;" list="rangeList"> <span id="rangeValue">5</span></p>
+              <datalist id="rangeList">
+              <option value="0" label="0">
+              <option value="2" label="2">
+              <option value="4" label="4">
+              <option value="6" label="6">
+              <option value="8" label="8">
+              <option value="10" label="10">
+              </datalist>
+            </fieldset>
           </div>
           
-          <div id="about" class="content-region hide">
+          <div id="conditions" class="content-region hide">
             <h2>About</h2>
             <p>
               Sed tempus urna et pharetra pharetra massa massa ultricies. Porttitor rhoncus dolor purus non enim praesent. Id aliquet risus feugiat in ante metus dictum. 
             </p>
           </div>
           
-          <div id="contact" class="content-region hide">
+          <div id="emotions" class="content-region hide">
             <h2>Contact</h2>
             <p>
               Pellentesque nec nam aliquam sem et tortor consequat. Quisque sagittis purus sit amet volutpat consequat. Magna eget est lorem ipsum dolor. 
             </p>
           </div>
           
+          <div id="comment" class="content-region hide">
+            <h2>Contact</h2>
+            <p>
+              Pellentesque nec nam aliquam sem et tortor consequat. Quisque sagittis purus sit amet volutpat consequat. Magna eget est lorem ipsum dolor. 
+            </p>
+          </div>
         </div>
       </div>
     </div>
