@@ -3,7 +3,7 @@
   <head>
     <!-- Page setup -->
     <meta charset="utf-8">
-    <title>Your title here</title>
+    <title>Пищевой дневник</title>
     <meta name="description" content="A brief description of your site for search engines">
     <meta name="author" content="Information about the author here">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
@@ -50,31 +50,32 @@
               <p> Напиши место приёма пищи: 
                 <input placeholder="Кухня" type="text" id="name" name="name" size="20">
               </p>
-              <p>
-              Запиши название съеденных продукта(ов), содержащие компоненты:
-            </p>
-            <p> Белок: 
-              <input placeholder="Курица" type="text" id="name" name="name" size="20">
-            </p>
-            <p> Жиры: 
-              <input placeholder="Масло" type="text" id="name" name="name" size="20">
-            </p>
-            <p> Углеводы: 
-              <input placeholder="Гречка" type="text" id="name" name="name" size="20">
-            </p>
-            <p> Клетчатка: 
-              <input placeholder="Помидор" type="text" id="name" name="name" size="20">
-            </p>
-            <p> Кальций: 
-              <input placeholder="Сметана" type="text" id="name" name="name" size="20">
-            </p>
-            <p> Еда для радости: 
-                <input placeholder="Шоколадная конфета" type="text" id="name" name="name" size="20">
-            </p>
+            <fieldset> <legend>Запиши название съеденных продукта(ов), содержащие компоненты:</legend>
+              <br> 
+              <p> Белок: 
+                <input placeholder="Курица" type="text" id="name" name="name" size="20">
+              </p>
+              <p> Жиры: 
+                <input placeholder="Масло" type="text" id="name" name="name" size="20">
+              </p>
+              <p> Углеводы: 
+                <input placeholder="Гречка" type="text" id="name" name="name" size="20">
+              </p>
+              <p> Клетчатка: 
+                <input placeholder="Помидор" type="text" id="name" name="name" size="20">
+              </p>
+              <p> Кальций: 
+                <input placeholder="Сметана" type="text" id="name" name="name" size="20">
+              </p>
+              <p> Еда для радости: 
+                  <input placeholder="Шоколадная конфета" type="text" id="name" name="name" size="20">
+              </p>
+          </fieldset>
+
 
             <fieldset> <legend>Шкала голода</legend>
-              <p><input type="range" min="0" max="10" onchange="document.getElementById('rangeValue').innerHTML = this.value;" list="rangeList"> <span id="rangeValue">5</span></p>
-              <datalist id="rangeList">
+              <p><input type="range" min="0" max="10" onchange="document.getElementById('rangeList_hunger').innerHTML = this.value;" list="rangeList"> <span id="rangeList_hunger">5</span></p>
+              <datalist id="rangeList_hunger">
               <option value="0" label="0">
               <option value="2" label="2">
               <option value="4" label="4">
@@ -86,8 +87,8 @@
 
 
             <fieldset> <legend>Шкала насыщения</legend>
-              <p><input type="range" min="0" max="10" onchange="document.getElementById('rangeValue').innerHTML = this.value;" list="rangeList"> <span id="rangeValue">5</span></p>
-              <datalist id="rangeList">
+              <p><input type="range" min="0" max="10" onchange="document.getElementById('rangeList_satiety').innerHTML = this.value;" list="rangeList"> <span id="rangeList_satiety">5</span></p>
+              <datalist id="rangeList_satiety">
               <option value="0" label="0">
               <option value="2" label="2">
               <option value="4" label="4">
@@ -96,34 +97,195 @@
               <option value="10" label="10">
               </datalist>
             </fieldset>
-          </div>
-          
-          <div id="conditions" class="content-region hide">
-            <h2>About</h2>
-            <p>
-              Sed tempus urna et pharetra pharetra massa massa ultricies. Porttitor rhoncus dolor purus non enim praesent. Id aliquet risus feugiat in ante metus dictum. 
-            </p>
+
+
+
+          <fieldset> <legend>Фотография еды (опционально)</legend>
+            <input type="file"
+            id="meal" name="meal"
+            accept="image/png, image/jpeg">
+          </fieldset>
+
+
           </div>
           
           <div id="emotions" class="content-region hide">
-            <h2>Contact</h2>
-            <p>
-              Pellentesque nec nam aliquam sem et tortor consequat. Quisque sagittis purus sit amet volutpat consequat. Magna eget est lorem ipsum dolor. 
-            </p>
+            <form>
+              <fieldset>
+                <legend>Причины поесть</legend>
+                <div>
+                  <label>
+                    <input type="checkbox" id="hunger" name="emotion" value="hunger" />
+                    Голод
+                  </label>
+                </div>
+                <div>
+                  <label>
+                    <input type="checkbox" id="people" name="emotion" value="people" />
+                    За компанию
+                  </label>
+                </div>
+                <div>
+                  <label>
+                    <input type="checkbox" id="boredom" name="emotion" value="boredom" />
+                    От скуки
+                  </label>
+                </div>
+                <div>
+                  <label>
+                    <input type="checkbox" id="schedule" name="emotion" value="schedule" />
+                    По расписанию
+                  </label>
+                </div>
+                <div>
+                  <label>
+                    <input type="checkbox" id="habit" name="emotion" value="habit" />
+                    Привычка
+                </div>
+                <div>
+                  <label>
+                    <input type="checkbox" id="food_near" name="emotion" value="food_near" />
+                    Еда рядом
+                  </label>
+                </div>
+                <div>
+                  <label>
+                    <input type="checkbox" id="emotion_food" name="emotion" value="emotion_food" />
+                    Эмоции
+                  </label>
+                </div>
+                <div>
+                  <label>
+                    <input type="checkbox" id="other_food" name="emotion" value="other_food" />
+                    Другое
+                  </label>
+                  <input
+                    type="text"
+                    id="other_food"
+                    name="emotion"
+                    aria-label="Other reasons" />
+                </div>
+              </fieldset>
+            </form>
+
+
+            <form>
+              <fieldset>
+                <legend>Какие эмоции ты испытывал(а) во время еды?</legend>
+                <div>
+                  <label>
+                    <input type="checkbox" id="happiness" name="emotion" value="happiness" />
+                    Радость
+                  </label>
+                </div>
+                <div>
+                  <label>
+                    <input type="checkbox" id="anger" name="emotion" value="anger" />
+                    Злость/раздражение/нервозность
+                  </label>
+                </div>
+                <div>
+                  <label>
+                    <input type="checkbox" id="anxiety" name="emotion" value="anxiety" />
+                    Страх, тревога
+                  </label>
+                </div>
+                <div>
+                  <label>
+                    <input type="checkbox" id="disgust" name="emotion" value="disgust" />
+                    Отвращение
+                  </label>
+                </div>
+                <div>
+                  <label>
+                    <input type="checkbox" id="shame" name="emotion" value="shame" />
+                    Вина, стыд
+                  </label>
+                </div>
+                <div>
+                  <label>
+                    <input type="checkbox" id="surprise" name="emotion" value="surprise" />
+                    Удивление, волнение
+                  </label>
+                </div>
+                <div>
+                  <label>
+                    <input type="checkbox" id="other" name="emotion" value="other" />
+                    Другое
+                  </label>
+                  <input
+                    type="text"
+                    id="other_emotions"
+                    name="emotion"
+                    aria-label="Other emotion" />
+                </div>
+              </fieldset>
+            </form>
+            
+            <form>
+              <fieldset>
+                <legend>Компенсаторные меры</legend>
+                <div>
+                  <label>
+                    <input type="checkbox" id="no_compensate" name="compensate" value="no" />
+                    Не было
+                  </label>
+                </div>
+                <div>
+                  <label>
+                    <input type="checkbox" id="vomit" name="compensate" value="vomit" />
+                    Рвота
+                  </label>
+                </div>
+                <div>
+                  <label>
+                    <input type="checkbox" id="diuretic" name="compensate" value="diuretic" />
+                    Мочегонное
+                  </label>
+                </div>
+                <div>
+                  <label>
+                    <input type="checkbox" id="laxative" name="compensate" value="laxative" />
+                    Слабительноe
+                  </label>
+                </div>
+                <div>
+                  <label>
+                    <input type="checkbox" id="disgust" name="compensate" value="disgust" />
+                    Физическая нагрузка
+                  </label>
+                </div>
+                <div>
+                  <label>
+                    <input type="checkbox" id="other_compensate" name="compensate" value="other_compensate" />
+                    Другое
+                  </label>
+                  <input
+                    type="text"
+                    id="other_compensate"
+                    name="emotion"
+                    aria-label="Other emotion" />
+                </div>
+              </fieldset>
+            </form>
           </div>
           
           <div id="comment" class="content-region hide">
-            <h2>Contact</h2>
-            <p>
-              Pellentesque nec nam aliquam sem et tortor consequat. Quisque sagittis purus sit amet volutpat consequat. Magna eget est lorem ipsum dolor. 
-            </p>
+              <form>
+                Любые комментарии про приём пищи:
+                <br>
+                <textarea id="personal_comment" name="personal_comment" 
+                rows="4" cols="50"placeholder="Было очень вкусно!"></textarea>
+                <br>
+              </form>
+            
           </div>
         </div>
       </div>
     </div>
 
     <footer>  
-      ...
+      <button type="submit">Сохранить приём пищи</button>
     </footer>
     
     <!-- Load additional JS scripts here -->
