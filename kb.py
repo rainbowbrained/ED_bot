@@ -1,7 +1,10 @@
 '''
 все клавиатуры бота, статические и динамические
 '''
-from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup, KeyboardButton, ReplyKeyboardMarkup, ReplyKeyboardRemove, WebAppInfo
+from aiogram.types import InlineKeyboardButton, \
+    InlineKeyboardMarkup, KeyboardButton, \
+        ReplyKeyboardMarkup, ReplyKeyboardRemove, WebAppInfo
+import config
 
 menu = [
     [InlineKeyboardButton(text="📝 Пройти тест", callback_data="start_diagnostics"),
@@ -17,15 +20,16 @@ exit_kb = ReplyKeyboardMarkup(keyboard=[[KeyboardButton(text="◀️ Выйти 
 iexit_kb = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text="◀️ Выйти в меню", callback_data="menu")]])
 #-------------------------------------------------------------
 gender = [
-    [InlineKeyboardButton(text="🙍‍♂️ Мужской", callback_data="man")],
-    [InlineKeyboardButton(text="🙍‍♀️ Женский", callback_data="woman")],
-    [InlineKeyboardButton(text="🥷 Другое", callback_data="other")]
+    [InlineKeyboardButton(text="🙍‍♂️ Мужской", callback_data="gender_man")],
+    [InlineKeyboardButton(text="🙍‍♀️ Женский", callback_data="gender_woman")],
+    [InlineKeyboardButton(text="🥷 Другое", callback_data="gender_other")]
 ]
 gender = InlineKeyboardMarkup(inline_keyboard=gender)
-do_not_answer = ReplyKeyboardMarkup(keyboard=[[KeyboardButton(text="Не знаю/не хочу указывать", callback_data="no_weight")]], resize_keyboard=True, one_time_keyboard=True)
+do_not_answer = ReplyKeyboardMarkup(keyboard=[[KeyboardButton(text="Не знаю/не хочу указывать")]], 
+                                               resize_keyboard=True)
 #-------------------------------------------------------------
 
-answers1 = [
+answers_diagnostics = [
     [InlineKeyboardButton(text="Никогда", callback_data="0")],
     [InlineKeyboardButton(text="Редко", callback_data="0")],
     [InlineKeyboardButton(text="Иногда", callback_data="0")],
@@ -33,23 +37,24 @@ answers1 = [
     [InlineKeyboardButton(text='Как правило', callback_data="2")],
     [InlineKeyboardButton(text="Постоянно", callback_data="3")]
 ]
-answers1 = InlineKeyboardMarkup(inline_keyboard=answers1, resize_keyboard=True)
+answers_diagnostics = InlineKeyboardMarkup(inline_keyboard=answers_diagnostics, resize_keyboard=True)
 #-------------------------------------------------------------
 
-answers2 = [
-    [InlineKeyboardButton(text="Нет", callback_data="0")],
-    [InlineKeyboardButton(text="Да", callback_data="1")],
+answers_yes_no = [
+    [InlineKeyboardButton(text="Нет", callback_data="no")],
+    [InlineKeyboardButton(text="Да", callback_data="yes")],
 ]
-answers2 = InlineKeyboardMarkup(inline_keyboard=answers2, resize_keyboard=True)
+answers_yes_no = InlineKeyboardMarkup(inline_keyboard=answers_yes_no, resize_keyboard=True)
 
 #-------------------------------------------------------------web_app=WebAppInfo('https://rainbowbrained.github.io/ED_bot/'),
 actions = [
-    [KeyboardButton(text="💧 Попил воды", callback_data="log_water"),
-     KeyboardButton(text="🥦 Поел",  web_app=WebAppInfo(url = 'https://rainbowbrained.github.io/ED_bot/'), callback_data="log_food")],
-    [KeyboardButton(text="😟 Хочу сорваться", callback_data="0"),
-     KeyboardButton(text="😨 Сорвался", callback_data="1")],
-    [KeyboardButton(text="📈 Показать трекеры", callback_data="1")],
-    [KeyboardButton(text='💁‍♀️ Изменить информацию о себе', callback_data="change_information")]
+    [KeyboardButton(text="💧 Попил воды"),
+     KeyboardButton(text="🥦 Поел",  web_app=WebAppInfo(url = config.WEB_APP_FOOD_URL))],
+    [KeyboardButton(text="😟 Хочу сорваться"),
+     KeyboardButton(text="😨 Сорвался")],
+    [KeyboardButton(text="🛏 Записать сон",  web_app=WebAppInfo(url = config.WEB_APP_SLEEP_URL)),
+     KeyboardButton(text="📈 Показать трекеры")],
+    [KeyboardButton(text='💁‍♀️ Изменить информацию о себе')]
 ]
 actions = ReplyKeyboardMarkup(keyboard=actions, resize_keyboard=True, one_time_keyboard=True)
 #-------------------------------------------------------------
@@ -62,3 +67,13 @@ log_food = [
     [KeyboardButton(text="◀️ Выйти в меню", callback_data="menu")]
 ]
 log_food = ReplyKeyboardMarkup(keyboard=log_food, resize_keyboard=True, one_time_keyboard=True)
+
+#-------------------------------------------------------------
+
+''' 
+markup_request = ReplyKeyboardMarkup(resize_keyboard=True).add(
+    KeyboardButton('Отправить свой контакт ☎️', request_contact=True)
+).add(
+    KeyboardButton('Отправить свою локацию 🗺️', request_location=True)
+)
+'''
