@@ -4,7 +4,7 @@
 from aiogram.types import InlineKeyboardButton, \
     InlineKeyboardMarkup, KeyboardButton, \
         ReplyKeyboardMarkup, ReplyKeyboardRemove, WebAppInfo
-import config
+import config, text_phrases
 
 menu = [
     [InlineKeyboardButton(text="📝 Пройти тест", callback_data="start_diagnostics"),
@@ -27,6 +27,21 @@ gender = [
 gender = InlineKeyboardMarkup(inline_keyboard=gender)
 do_not_answer = ReplyKeyboardMarkup(keyboard=[[KeyboardButton(text="Не знаю/не хочу указывать")]], 
                                                resize_keyboard=True)
+after_diagnosis = ReplyKeyboardMarkup(keyboard=[[KeyboardButton(text=text_phrases.btn_start_programm)]], 
+                                               resize_keyboard=True, one_time_keyboard=True)
+setup_functions = [[InlineKeyboardButton(text="Настроить сейчас", callback_data="yes"),
+    InlineKeyboardButton(text="Настроить потом", callback_data="no")]]
+
+setup_functions = InlineKeyboardMarkup(inline_keyboard=setup_functions)
+drink_water_reminder = [
+    [KeyboardButton(text="30 мин"), KeyboardButton(text="1 час")],
+    [KeyboardButton(text="1.5 часа"), KeyboardButton(text="2 часа (оптимально)")],
+    [KeyboardButton(text="3 часа"), KeyboardButton(text="4 часа")],
+    [KeyboardButton(text='Утром и вечером')],
+    [KeyboardButton(text='Выключить напоминания')]
+]
+drink_water_reminder = ReplyKeyboardMarkup(keyboard=drink_water_reminder, resize_keyboard=True, one_time_keyboard=True)
+
 #-------------------------------------------------------------
 
 answers_diagnostics = [

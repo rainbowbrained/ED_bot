@@ -7,6 +7,26 @@ import config
 from datetime import datetime
 from aiogram.fsm.context import FSMContext
 
+def drop_db(path_db : str):
+    try:
+        sqlite_connection = sqlite3.connect(path_db)
+        sqlite_create_table_query = '''DROP TABLE IF EXISTS users;'''
+
+        cursor = sqlite_connection.cursor()
+        print("База данных подключена к SQLite")
+        cursor.execute(sqlite_create_table_query)
+        sqlite_connection.commit()
+        print("Таблица SQLite удалена")
+        cursor.close()
+
+    except sqlite3.Error as error:
+        print("Ошибка при подключении к sqlite", error)
+    finally:
+        if (sqlite_connection):
+            sqlite_connection.close()
+            print("Соединение с SQLite закрыто")
+
+
 def create_db(path_db : str):
     try:
         sqlite_connection = sqlite3.connect(path_db)
@@ -19,6 +39,14 @@ def create_db(path_db : str):
                                     height INTEGER,
                                     score1 INTEGER,
                                     score2 INTEGER,
+                                    diagnosis TEXT,
+                                    sleep_tracker INTEGER,
+                                    water_tracker INTEGER,
+                                    water_reminder INTEGER, 
+                                    food_reminder INTEGER, 
+                                    state_reminder INTEGER, 
+                                    sleep_reminder INTEGER,
+                                    end_subscription datetime,
                                     joining_date datetime);'''
 
         cursor = sqlite_connection.cursor()
@@ -35,15 +63,17 @@ def create_db(path_db : str):
             sqlite_connection.close()
             print("Соединение с SQLite закрыто")
 
+#total consumed water, sleep, food
 def create_db_daily(path_db : str):
     try:
         sqlite_connection = sqlite3.connect(path_db)
         sqlite_create_table_query = '''CREATE TABLE users_daily (
-                                    id INTEGER PRIMARY KEY,
+                                    id INTEGER,
                                     date datetime,
                                     water INTEGER,
                                     start_time INTEGER,
-                                    finish_time INTEGER);'''
+                                    finish_time INTEGER,
+                                    food_summary TEXT);'''
 
         cursor = sqlite_connection.cursor()
         print("База данных подключена к SQLite")
@@ -154,11 +184,28 @@ async def edit_user_db_score (user_id, score1, score2):
         if (con):
             con.close()
             print("Соединение с SQLite закрыто")
+
 def get_user_db (user_id):
     try:
         con = sqlite3.connect(config.DB_PATH)
         cursor = con.cursor()
         cursor.execute("SELECT name, gender, age, height, weight FROM users WHERE id=?", (user_id, ))
+        data = cursor.fetchone()
+        con.commit()
+        con.close()
+        return data
+    except sqlite3.Error as error:
+        print("Ошибка при подключении к sqlite", error)
+    finally:
+        if (con):
+            con.close()
+            print("Соединение с SQLite закрыто")
+
+def get_user_db_score (user_id):
+    try:
+        con = sqlite3.connect(config.DB_PATH)
+        cursor = con.cursor()
+        cursor.execute("SELECT score1, score2 FROM users WHERE id=?", (user_id, ))
         data = cursor.fetchone()
         con.commit()
         con.close()
