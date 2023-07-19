@@ -7,7 +7,7 @@ from aiogram.fsm.context import FSMContext
 import aiogram.utils.markdown as md
 from aiogram.enums import ParseMode
 import kb, text_phrases, diagnostics, db
-from states import FSMFillForm
+from states import FSMFillForm, FSMsetup
 from bot import bot
 
 dp = Router()
@@ -184,7 +184,7 @@ async def callback_handler_diagnose1(callback_query: types.CallbackQuery, state:
                 await bot.send_message(callback_query.from_user.id, text)
                 await bot.send_message(callback_query.from_user.id, text_phrases.after_first_diagnostic, 
                                    reply_markup=kb.after_diagnosis)
-                await state.set_state(FSMFillForm.setup_functions0)
+                await state.set_state(FSMsetup.setup_functions0)
             else:
                 await state.set_state(FSMFillForm.show_menu)
                 await bot.send_message(callback_query.from_user.id, text + str(answers2), 

@@ -24,3 +24,14 @@ class FSMsetup(StatesGroup):
     setup_functions_water_reminder = State()
     setup_functions_sleep = State()
     setup_functions_sleep_reminder = State()
+
+class FSMRedButton(StatesGroup):
+    action_state = State()
+    feeling_state = State()
+    intencity_state = State()
+    reminder_state = State()
+    better_state = State()
+    post_better_state = State()
+    practice_state = State()
+    ending_state = State()
+

@@ -8,21 +8,36 @@ from aiogram.filters import Command, StateFilter
 from aiogram.fsm.state import State, StatesGroup, default_state
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.middleware import BaseMiddleware
-from aiogram.fsm.storage.redis import RedisStorage, Redis
+#from aiogram.fsm.storage.redis import RedisStorage, Redis
 import aiogram.utils.markdown as md
 from aiogram.enums import ParseMode
 import kb, text_phrases, diagnostics, db, config #, buy
-import diagnostics_handler, settings_handler
+import diagnostics_handler, settings_handler, red_button_handler
+from storage import storage
 from bot import bot
-from states import FSMFillForm, FSMsetup
+from states import FSMFillForm, FSMsetup, FSMRedButton
+import aioschedule
 
-# Инициализируем Redis
-redis: Redis = Redis(host=config.HOST_STORAGE)
-storage: RedisStorage = RedisStorage(redis=redis)
-
-#bot: Bot = Bot(token=config.BOT_TOKEN)
-#dp = Dispatcher(bot, storage=storage)
 dp: Dispatcher = Router()
+
+async def send_reminder_sleep():
+    print('sfklskd')
+    await bot.send_message(534311392, '!')
+
+
+async def scheduler():
+    DAY_TIME = "14:12"
+    EVERYDAY_TIME = "19:24"
+    aioschedule.every().day.at(EVERYDAY_TIME).do(send_reminder_sleep)
+    aioschedule.every(1).seconds.do(send_reminder_sleep)
+    while 1:
+        await aioschedule.run_pending()
+        await asyncio.sleep(1)
+
+def schedule_jobs():
+    scheduler.add_job(send_reminder_sleep, 'interval',seconds = 5, args = (dp,) )
+    print('!!!')
+
 
 
 async def set_default_commands(dp):
@@ -33,6 +48,7 @@ async def set_default_commands(dp):
             types.BotCommand('diagnostics', 'Диагностика РПП'),
             types.BotCommand("cancel", 'Отмена'),
             types.BotCommand('fillform', 'Анкета'),
+            types.BotCommand('red_btn', 'Хочу сорваться'),
             types.BotCommand('buy', 'Купить подпуску на бота'),
             types.BotCommand('settings', 'Настроить бота')
         ]
@@ -41,13 +57,14 @@ async def set_default_commands(dp):
 
 @dp.message(Command('start'))
 async def start_command(message: types.Message, state: FSMContext):
-    db.drop_db(config.DB_PATH)
+    #asyncio.create_task(scheduler())
+
+    await message.answer(f"Твой ID: {message.from_user.id}")
+    #db.drop_db(config.DB_PATH)
     db.create_db(config.DB_PATH)
-    # Сбрасываем состояние
     await state.clear()
     name = message.from_user.full_name
     await message.answer(text_phrases.greet.format(name=name))
-    
     await state.update_data(name = name)
     #await message.delete()
     if not db.user_in_db(message.from_user.id):
@@ -60,8 +77,6 @@ async def start_command(message: types.Message, state: FSMContext):
         await bot.send_message(message.from_user.id, text_phrases.greet_already_acquainted, 
                                    reply_markup=kb.actions)
             
-# Этот хэндлер будет срабатывать на команду "/cancel" в любых состояниях,
-# кроме состояния по умолчанию, и отключать машину состояний
 @dp.message(Command('cancel'), ~StateFilter(default_state))
 async def process_cancel_command_state(message: types.Message, state: FSMContext):
     await message.answer(text='Вы вышли из машины состояний\n\n'
@@ -102,10 +117,18 @@ async def message_handler_water(message: types.Message):
 async def message_handler_food(message: types.Message):
     await message.answer(text = 'Поел')
 
+''' 
+@dp.message(F.text == text_phrases.menu_red_btn)
+async def msg_handler_red_btn(message: types.Message, state: FSMContext):
+    await state.clear()
+    await state.set_state(FSMRedButton.action_state)
+    await message.answer(text = text_phrases.red_btn_start, reply_markup=kb.red_btn_action)
+'''
+''' 
 @dp.message(F.text =='😟 Хочу сорваться', StateFilter(FSMFillForm.show_menu))
 async def message_handler_support_before(message: types.Message):
     await message.answer(text = 'Хочу', reply_markup=kb.actions)
-
+'''
 @dp.message(F.text =='😨 Сорвался', StateFilter(FSMFillForm.show_menu))
 async def message_handler_support_after(message: types.Message):
     await message.answer(text = 'Сорвался', reply_markup=kb.actions)
@@ -114,10 +137,13 @@ async def message_handler_support_after(message: types.Message):
 async def message_handler_tracker(message: types.Message):
     await message.answer(text = 'трекеры', reply_markup=kb.actions)
 
-@dp.message(StateFilter(default_state))
-async def echo(message: types.Message):
+
+''' 
+@dp.message(, ~StateFilter(default_state))
+async def echo(message: types.Message, state:FSMContext):
     await message.answer(f"Твой ID: {message.from_user.id}")
-    
+    print(await state.get_state())
+'''
 
 
 async def shutdown(dispatcher: Dispatcher):
@@ -135,23 +161,26 @@ async def main():
 '''
 
 # Функция конфигурирования и запуска бота
-''' 
+
 async def main() -> None:
 
     # Инициализируем бот и диспетчер
-    #bot: Bot = Bot(token=config.BOT_TOKEN)
     dp1: Dispatcher = Dispatcher(storage=storage)
     dp1.include_router(dp)
+    dp1.include_router(diagnostics_handler.dp)
+    dp1.include_router(settings_handler.dp)
+    dp1.include_router(red_button_handler.dp)
+    logging.basicConfig(level=logging.INFO)
 
     # Пропускаем накопившиеся апдейты и запускаем polling
     await bot.delete_webhook(drop_pending_updates=True)
     await dp1.start_polling(bot)
 
 
-if __name__ == '__main__':
+if __name__ == '__main__':\
     asyncio.run(main())
 ''' 
-''' 
+
 @dp.callback_query()
 async def callback_handler_diagnose1(callback_query: types.CallbackQuery, state: FSMContext):
     await bot.send_message(chat_id=callback_query.message.chat.id, 
@@ -159,7 +188,7 @@ async def callback_handler_diagnose1(callback_query: types.CallbackQuery, state:
   
 '''                             
 
-
+'''   
 if __name__ == "__main__":
     dp1: Dispatcher = Dispatcher(storage=storage)
     dp1.include_router(dp)
@@ -168,3 +197,4 @@ if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)
     dp1.run_polling(bot, skip_updates=True, on_shutdown=shutdown, on_startup=set_default_commands)
     #asyncio.run(main())
+'''   

@@ -63,31 +63,6 @@ def create_db(path_db : str):
             sqlite_connection.close()
             print("Соединение с SQLite закрыто")
 
-#total consumed water, sleep, food
-def create_db_daily(path_db : str):
-    try:
-        sqlite_connection = sqlite3.connect(path_db)
-        sqlite_create_table_query = '''CREATE TABLE users_daily (
-                                    id INTEGER,
-                                    date datetime,
-                                    water INTEGER,
-                                    start_time INTEGER,
-                                    finish_time INTEGER,
-                                    food_summary TEXT);'''
-
-        cursor = sqlite_connection.cursor()
-        print("База данных подключена к SQLite")
-        cursor.execute(sqlite_create_table_query)
-        sqlite_connection.commit()
-        print("Таблица daily создана")
-        cursor.close()
-
-    except sqlite3.Error as error:
-        print("Ошибка при подключении к sqlite", error)
-    finally:
-        if (sqlite_connection):
-            sqlite_connection.close()
-            print("Соединение с SQLite закрыто")
 
 def user_in_db (user_id : str):
     try:
@@ -217,9 +192,36 @@ def get_user_db_score (user_id):
             con.close()
             print("Соединение с SQLite закрыто")
 
+#-------------------------------------------------USER DAILY------------------------
+#total consumed water, sleep, food
+def create_db_daily():
+    try:
+        sqlite_connection = sqlite3.connect(config.DB_PATH_daily)
+        sqlite_create_table_query = '''CREATE TABLE users_daily (
+                                    id INTEGER,
+                                    date datetime,
+                                    water INTEGER,
+                                    start_time INTEGER,
+                                    finish_time INTEGER,
+                                    food_summary TEXT);'''
+
+        cursor = sqlite_connection.cursor()
+        print("База данных подключена к SQLite")
+        cursor.execute(sqlite_create_table_query)
+        sqlite_connection.commit()
+        print("Таблица daily создана")
+        cursor.close()
+
+    except sqlite3.Error as error:
+        print("Ошибка при подключении к sqlite", error)
+    finally:
+        if (sqlite_connection):
+            sqlite_connection.close()
+            print("Соединение с SQLite закрыто")
+
 def add_user_daily (user_id : str):
     try:
-        con = sqlite3.connect(config.DB_PATH)
+        con = sqlite3.connect(config.DB_PATH_daily)
         cursor = con.cursor()
         cursor.execute("SELECT * FROM users_daily WHERE id=? AND date = ?;", (user_id, datetime.now().strftime('%Y-%m-%d'),  ))
         data = cursor.fetchone()
@@ -264,6 +266,133 @@ def add_water (user_id : str, volume : int):
         if (con):
             con.close()
             print("Соединение с SQLite закрыто")
+
+
+
+#-------------------------------------------------USER ACHIEVEMENTS------------------------
+def create_db_achievements():
+    try:
+        sqlite_connection = sqlite3.connect(config.DB_PATH_achievements)
+        sqlite_create_table_query = '''CREATE TABLE users_achievements (
+                                    id INTEGER PRIMARY KEY,  
+                                    time_with_bot INTEGER,
+                                    time_showed_up INTEGER,
+                                    time_prevent_breakdown INTEGER,
+                                    quantity_practices INTEGER,
+                                    time_without_overeating INTEGER,
+                                    time_without_compensations INTEGER,
+                                    log_water_day INTEGER,
+                                    log_sleep_day INTEGER,
+                                    log_food_day INTEGER,
+                                    days_good_mood INTEGER,
+                                    days_good_food INTEGER,
+                                    days_good_water INTEGER,
+                                    days_good_sleep INTEGER);'''
+
+        cursor = sqlite_connection.cursor()
+        print("База данных подключена к SQLite")
+        cursor.execute(sqlite_create_table_query)
+        sqlite_connection.commit()
+        print("Таблица daily создана")
+        cursor.close()
+
+    except sqlite3.Error as error:
+        print("Ошибка при подключении к users_achievements", error)
+    finally:
+        if (sqlite_connection):
+            sqlite_connection.close()
+            print("Соединение с users_achievements закрыто")
+
+
+def add_user_achievements (user_id : str):
+    try:
+        con = sqlite3.connect(config.DB_PATH_daily)
+        cursor = con.cursor()
+        cursor.execute("SELECT * FROM users_achievements WHERE id=?;", (user_id,  ))
+        data = cursor.fetchone()
+        if data is None:
+            print('There is no component named')
+            new_line = (user_id,)
+            cursor.execute("INSERT INTO users (id) VALUES (?, )", new_line)
+        else:
+            print('Component found with rowid %s'%data[0])
+        con.commit()
+        con.close()
+        return
+
+    except sqlite3.Error as error:
+        print("Ошибка при подключении к sqlite", error)
+    finally:
+        if (con):
+            con.close()
+            print("Соединение с SQLite закрыто")
+
+
+def add_achievement (vals):
+    try:
+        con = sqlite3.connect(config.DB_PATH_daily)
+        cursor = con.cursor()
+        cursor.execute("SELECT water FROM users_achievements WHERE id=?;", (vals[-1], ))
+        data = cursor.fetchone()
+        if data is None:
+            print('There is no component named')
+            add_user_achievements(vals[-1])
+            data = 0
+        cursor.execute("UPDATE users_achievements SET time_with_bot =? time_showed_up =? \
+                                    time_prevent_breakdown =? \
+                                    quantity_practices =?\
+                                    time_without_overeating =?\
+                                    time_without_compensations =?\
+                                    log_water_day=? \
+                                    log_sleep_day=? \
+                                    log_food_day=? \
+                                    days_good_mood =? \
+                                    days_good_food=? \
+                                    days_good_water =? \
+                                    days_good_sleep=? \
+                                      WHERE id=?", vals)
+
+                       
+        con.commit()
+        con.close()
+        return
+
+    except sqlite3.Error as error:
+        print("Ошибка при подключении к sqlite", error)
+    finally:
+        if (con):
+            con.close()
+            print("Соединение с SQLite закрыто")
+
+
+def get_user_db_achievemnts (user_id):
+    try:
+        con = sqlite3.connect(config.DB_PATH)
+        cursor = con.cursor()
+        cursor.execute("SELECT time_with_bot =? time_showed_up =? \
+                                    time_prevent_breakdown =? \
+                                    quantity_practices =?\
+                                    time_without_overeating =?\
+                                    time_without_compensations =?\
+                                    log_water_day=? \
+                                    log_sleep_day=? \
+                                    log_food_day=? \
+                                    days_good_mood =? \
+                                    days_good_food=? \
+                                    days_good_water =? \
+                                    days_good_sleep=? \
+                                    FROM users_achievements WHERE id=?", user_id)
+        data = cursor.fetchone()
+        con.commit()
+        con.close()
+        return data
+    except sqlite3.Error as error:
+        print("Ошибка при подключении к sqlite", error)
+    finally:
+        if (con):
+            con.close()
+            print("Соединение с SQLite закрыто")
+
 
 '''
 try:

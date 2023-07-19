@@ -14,6 +14,7 @@ HOST_STORAGE = 'localhost'
 
 DB_PATH = 'users.db'
 DB_PATH_daily = 'users_daily.db'
+DB_PATH_achievements = 'users_achieve.db'
 
 WEB_APP_FOOD_URL = 'https://rainbowbrained.github.io/ED_bot/#food'
 WEB_APP_SLEEP_URL = 'https://rainbowbrained.github.io/ED_bot/#sleep'
