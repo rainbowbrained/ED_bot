@@ -27,3 +27,77 @@
   });
   
 })(jQuery);
+
+
+function SubmitFood(event) {
+  event.preventDefault();
+  var time_food = document.getElementById( "input_time_food" ).value ;
+  var place_food = document.getElementById( "input_place_food" ).value ;
+
+  var protein = document.getElementById( "input_protein" ).value ;
+  var fats = document.getElementById( "input_fats" ).value ;
+  var carbs = document.getElementById( "input_carbs" ).value ;
+  var fiber = document.getElementById( "input_fiber" ).value ;
+  var calcium = document.getElementById( "input_calcium" ).value ;
+  var happy_food = document.getElementById( "input_happy_food" ).value ;
+  var hunger = document.getElementById( "rangeList_hunger" ).value ;
+  var satiety = document.getElementById( "rangeList_satiety" ).value ;
+  var comment = document.getElementById( "personal_comment" ).value ;
+
+  var reason = ''
+  var emotions = ''
+  var compensate = ''
+  var check = document.getElementById( "hunger_reason" ) ;
+  check.checked ? reason += '1' : reason += '0' ;
+  check = document.getElementById( "people_reason" ) ;
+  check.checked ? reason += '1' : reason += '0' ;
+  check = document.getElementById( "boredom_reason" ) ;
+  check.checked ? reason += '1' : reason += '0' ;
+  check = document.getElementById( "schedule_reason" ) ;
+  check.checked ? reason += '1' : reason += '0' ;
+  check = document.getElementById( "habit_reason" ) ;
+  check.checked ? reason += '1' : reason += '0' ;
+  check = document.getElementById( "food_near_reason" ) ;
+  check.checked ? reason += '1' : reason += '0' ;
+  check = document.getElementById( "emotion_food_reason" ) ;
+  check.checked ? reason += '1' : reason += '0' ;
+  check = document.getElementById( "other_food_reason" ) ;
+  check.checked ? reason += document.getElementById( "other_food_reason_text" ).value : reason += '0' ;
+
+  check = document.getElementById( "happiness" ) ;
+  check.checked ? emotions += '1' : emotions += '0' ;
+  check = document.getElementById( "anger" ) ;
+  check.checked ? emotions += '1' : emotions += '0' ;
+  check = document.getElementById( "anxiety" ) ;
+  check.checked ? emotions += '1' : emotions += '0' ;
+  check = document.getElementById( "disgust" ) ;
+  check.checked ? emotions += '1' : emotions += '0' ;
+  check = document.getElementById( "shame" ) ;
+  check.checked ? emotions += '1' : emotions += '0' ;
+  check = document.getElementById( "surprise" ) ;
+  check.checked ? emotions += '1' : emotions += '0' ;
+  check = document.getElementById( "other" ) ;
+  check.checked ? emotions += document.getElementById( "other_emotions" ).value : emotions += '0' ;
+
+
+  check = document.getElementById( "no_compensate" ) ;
+  check.checked ? compensate += '1' : compensate += '0' ;
+  check = document.getElementById( "vomit" ) ;
+  check.checked ? compensate += '1' : compensate += '0' ;
+  check = document.getElementById( "diuretic" ) ;
+  check.checked ? compensate += '1' : compensate += '0' ;
+  check = document.getElementById( "laxative" ) ;
+  check.checked ? compensate += '1' : compensate += '0' ;
+  check = document.getElementById( "sport" ) ;
+  check.checked ? compensate += '1' : compensate += '0' ;
+  check = document.getElementById( "other_compensate" ) ;
+  check.checked ? compensate += document.getElementById( "other_compensate_text" ).value : compensate += '0' ;
+
+  var text = JSON.stringify({ compensate: compensate, emotions: emotions,  reason: reason,
+    comment: comment, satiety: satiety, hunger:hunger, happy_food:happy_food,
+    calcium:calcium, fiber:fiber, carbs:carbs, fats:fats, protein:protein,
+    place_food:place_food, time_food:time_food});
+
+  console.log(text);
+  window.alert(text);
+}
