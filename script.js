@@ -31,6 +31,12 @@
 let tg = window.Telegram.WebApp;
 tg.expand()
 
+tg.MainButton.text = "Changed Text"; //изменяем текст кнопки 
+tg.MainButton.setText("Changed Text1"); //изменяем текст кнопки иначе
+tg.MainButton.textColor = "#F55353"; //изменяем цвет текста кнопки
+tg.MainButton.color = "#143F6B"; //изменяем цвет бэкграунда кнопки
+tg.MainButton.setParams({"color": "#143F6B"}); //так изменяются все параметры 
+
 function SubmitFood(event) {
   event.preventDefault();
   var time_food = document.getElementById( "input_time_food" ).value ;
@@ -94,7 +100,7 @@ function SubmitFood(event) {
   check.checked ? compensate += '1' : compensate += '0' ;
   check = document.getElementById( "other_compensate" ) ;
   check.checked ? compensate += document.getElementById( "other_compensate_text" ).value : compensate += '0' ;
-  user_id = tg.initDataUnsafe.user.id 
+  
   var text = JSON.stringify({ compensate: compensate, emotions: emotions,  reason: reason,
     comment: comment, satiety: satiety, hunger:hunger, happy_food:happy_food,
     calcium:calcium, fiber:fiber, carbs:carbs, fats:fats, protein:protein,
@@ -102,6 +108,7 @@ function SubmitFood(event) {
   
   console.log(text);
   window.alert(text);
+  var user_id = tg.initDataUnsafe.user.id 
   window.alert(user_id);
   tg.sendData(text);
   tg.close()
