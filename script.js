@@ -33,8 +33,6 @@ Telegram.WebApp.ready();
 var initData = Telegram.WebApp.initData || '';
 var initDataUnsafe = Telegram.WebApp.initDataUnsafe || {};
 Telegram.WebApp.expand();
-window.alert(initData);
-window.alert(initDataUnsafe);
 
 function SubmitFood(event) {
   event.preventDefault();
@@ -100,10 +98,13 @@ function SubmitFood(event) {
   check = document.getElementById( "other_compensate" ) ;
   check.checked ? compensate += document.getElementById( "other_compensate_text" ).value : compensate += '0' ;
   
+  var hunger_before = document.getElementById( "rangeList_hunger" ).innerHTML ;
+  var hunger_after = document.getElementById( "rangeList_satiety" ).innerHTML ;
+
   var text = JSON.stringify({ compensate: compensate, emotions: emotions,  reason: reason,
     comment: comment, satiety: satiety, hunger:hunger, happy_food:happy_food,
     calcium:calcium, fiber:fiber, carbs:carbs, fats:fats, protein:protein,
-    place_food:place_food, time_food:time_food});
+    place_food:place_food, time_food:time_food, hunger_before:hunger_before, hunger_after:hunger_after});
   console.log(text);
   window.alert(text);
   //var user_id = Telegram.WebApp.initDataUnsafe.user.id 
