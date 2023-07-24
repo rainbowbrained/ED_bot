@@ -28,6 +28,8 @@
   
 })(jQuery);
 
+let tg = window.Telegram.WebApp;
+tg.expand()
 
 function SubmitFood(event) {
   event.preventDefault();
@@ -92,12 +94,16 @@ function SubmitFood(event) {
   check.checked ? compensate += '1' : compensate += '0' ;
   check = document.getElementById( "other_compensate" ) ;
   check.checked ? compensate += document.getElementById( "other_compensate_text" ).value : compensate += '0' ;
-
+  user_id = tg.initDataUnsafe.user.id 
   var text = JSON.stringify({ compensate: compensate, emotions: emotions,  reason: reason,
     comment: comment, satiety: satiety, hunger:hunger, happy_food:happy_food,
     calcium:calcium, fiber:fiber, carbs:carbs, fats:fats, protein:protein,
     place_food:place_food, time_food:time_food});
-
+  
   console.log(text);
   window.alert(text);
+  window.alert(user_id);
+  tg.sendData(text);
+  tg.close()
 }
+
