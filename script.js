@@ -104,12 +104,11 @@ function SubmitFood(event) {
     comment: comment, satiety: satiety, hunger:hunger, happy_food:happy_food,
     calcium:calcium, fiber:fiber, carbs:carbs, fats:fats, protein:protein,
     place_food:place_food, time_food:time_food});
-  Telegram.WebApp.ready();
   console.log(text);
   window.alert(text);
-  var user_id = Telegram.WebApp.initDataUnsafe.user.id 
-  window.alert(text);
-  window.alert(user_id);
+  //var user_id = Telegram.WebApp.initDataUnsafe.user.id 
+  //window.alert(text);
+  //window.alert(user_id);
   Telegram.WebApp.sendData(text);
   Telegram.WebApp.close();
 }
