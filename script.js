@@ -28,14 +28,11 @@
   
 })(jQuery);
 
-let tg = window.Telegram.WebApp;
-tg.expand()
+Telegram.WebApp.ready();
 
-tg.MainButton.text = "Changed Text"; //изменяем текст кнопки 
-tg.MainButton.setText("Changed Text1"); //изменяем текст кнопки иначе
-tg.MainButton.textColor = "#F55353"; //изменяем цвет текста кнопки
-tg.MainButton.color = "#143F6B"; //изменяем цвет бэкграунда кнопки
-tg.MainButton.setParams({"color": "#143F6B"}); //так изменяются все параметры 
+var initData = Telegram.WebApp.initData || '';
+var initDataUnsafe = Telegram.WebApp.initDataUnsafe || {};
+Telegram.WebApp.expand();
 
 function SubmitFood(event) {
   event.preventDefault();
@@ -108,9 +105,9 @@ function SubmitFood(event) {
   
   console.log(text);
   window.alert(text);
-  var user_id = tg.initDataUnsafe.user.id 
+  var user_id = Telegram.WebApp.initDataUnsafe.user.id 
   window.alert(user_id);
-  tg.sendData(text);
-  tg.close()
+  Telegram.WebApp.sendData(text);
+  Telegram.WebApp.close();
 }
 
